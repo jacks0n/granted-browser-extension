@@ -12,6 +12,7 @@
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
     "compile": "tsc --noEmit",
+    "test": "wxt build && playwright test",
     "postinstall": "wxt prepare"
   },
   "dependencies": {
@@ -20,6 +21,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@wxt-dev/module-react": "^1.1.0",
