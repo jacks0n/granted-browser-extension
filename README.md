@@ -13,11 +13,3 @@ Building from source requires [NodeJS](https://nodejs.org/en/download) and [pnpm
 2. Build the extension: `cd packages/chrome && pnpm build`
 
 The resulting (unpacked) extension is available at `packages/chrome/.output/chrome-mv3`. You can then load the unpacked extension in Chrome, or similar browsers, by following [this guide](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked).
-
-## Testing
-
-From `packages/chrome`, run `pnpm exec playwright install chromium` once, then
-`pnpm test` to build and test the unpacked extension in Chromium. On Linux, use
-`pnpm exec playwright install --with-deps chromium` to install the browser's system
-dependencies too. Tests replace the native messaging host with fixture codes;
-they do not sign in to AWS. Run `pnpm compile` to check TypeScript.
