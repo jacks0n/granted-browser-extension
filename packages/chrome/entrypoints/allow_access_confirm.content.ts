@@ -17,7 +17,10 @@ export default defineContentScript({
     }, 200);
 
     const checkIntervalAuthzRequested = setInterval(() => {
-      if (document.querySelector("#user-code, .device-verification-user-code")) {
+      if (
+        document.body.textContent?.includes("Authorization requested") ||
+        document.querySelector(".device-verification-user-code")
+      ) {
         clearInterval(checkIntervalAuthzRequested);
         void confirmUserCode();
       } else if (Date.now() - start > 20000) {
@@ -101,7 +104,7 @@ async function confirmUserCode() {
   const userCodeElement = document.querySelector("#user-code, .device-verification-user-code");
   const buttonSelector = '#cli_verification_btn, [data-testid="query-param-user-code"] button[type="submit"]';
   if (userCodeElement) {
-    const userCode = userCodeElement.textContent?.trim();
+    const userCode = userCodeElement.textContent;
     console.log("Granted: got user code: " + userCode);
 
     if (userCode) {
