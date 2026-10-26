@@ -7,7 +7,10 @@ export default defineContentScript({
 
     const start = Date.now();
     const checkInterval = setInterval(() => {
-      if (document.body.textContent?.includes("Allow access to your data?")) {
+      if (
+        document.body.textContent?.includes("Allow access to your data?") ||
+        document.body.textContent?.includes("Allow Granted CLI to access your data?")
+      ) {
         clearInterval(checkInterval);
         void automateConfirmAccess();
       } else if (Date.now() - start > 20000) {
@@ -54,9 +57,9 @@ async function automateConfirmAccess() {
   if (userCodeIsSet) {
     let attempts = 0;
     const intervalId = setInterval(() => {
-      const allowAccessButton = document.querySelector(
-        '[data-testid="allow-access-button"]',
-      ) as HTMLElement;
+      const allowAccessButton =
+        document.querySelector<HTMLElement>('[data-testid="allow-access-button"] button') ??
+        document.querySelector<HTMLElement>('[data-testid="allow-access-button"]');
       if (allowAccessButton) {
         console.log("Granted: found allow access button", allowAccessButton);
         allowAccessButton.click();
@@ -65,7 +68,8 @@ async function automateConfirmAccess() {
         const maxCloseAttempts = 10;
         const closeMessageCheckInterval = setInterval(() => {
           if (
-            document.body.textContent?.includes("You can close this window.")
+            document.body.textContent?.includes("You can close this window.") ||
+            document.body.textContent?.includes("You can now close this tab.")
           ) {
             clearInterval(closeMessageCheckInterval);
             sendMessage("closeTab", undefined);
